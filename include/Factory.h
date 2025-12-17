@@ -1,20 +1,12 @@
-#pragma once
+#ifndef FACTORY_H
+#define FACTORY_H
+
 #include "npc.h"
-#include"WorkerTrader.h"
-#include "Knight.h"
-#include "Squirrel.h"
-#include <vector>
-#include <memory>
-#include <fstream>
-#include <sstream>
+#include <string>
 
 class NPCFactory {
 public:
-    static std::unique_ptr<NPC> createNPC(NPCType, const std::string& name, int x, int y);
-    static std::vector<std::unique_ptr<NPC>> loadFromFile(const std::string& filename);
-    static void saveToFile(const std::string& filename, const std::vector<std::unique_ptr<NPC>>& npcs);
-
-private:
-    static std::string typeToString(NPCType type);
-    static NPCType stringToType(const std::string& typeStr);
+    static NPC* create(const std::string& type, double x, double y, const std::string& name);
 };
+
+#endif

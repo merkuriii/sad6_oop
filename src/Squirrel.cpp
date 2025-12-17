@@ -1,13 +1,16 @@
-#include "../include/Squirrel.h"
-#include "../include/BattleVisitor.h"
+#include "Squirrel.h"
+#include "Visitor.h"
 
-Squirrel::Squirrel(const std::string& name, int x, int y)
-    :NPC(name, x, y, NPCType::SQUIRREl) {}
+Squirrel::Squirrel(double x, double y, const std::string& name) : NPC(x, y, name) {}
 
-void Squirrel::accept(NPCVisitor& visitor) {
-    visitor.visit(*this);
+std::string Squirrel::getType() const { 
+    return "Squirrel"; 
 }
 
-std::string Squirrel::getTypeString() const {
-    return "Белка";
+void Squirrel::accept(const Visitor& v) const { 
+    v.visit(*this); 
+}
+
+bool Squirrel::canKill(const NPC* other) const {
+    return dynamic_cast<const Squirrel*>(other) != nullptr;
 }

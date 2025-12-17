@@ -1,11 +1,11 @@
-#ifndef KNIGHT_H
-#define KNIGHT_H
+#ifndef SLAVETRADER_H
+#define SLAVETRADER_H
 
 #include "npc.h"
 
-class Knight : public NPC {
+class SlaveTrader : public NPC {
 public:
-    Knight(double x, double y, const std::string& name);
+    SlaveTrader(double x, double y, const std::string& name);
     std::string getType() const override;
     void accept(const Visitor& v) const override;
     bool canKill(const NPC* other) const override;

@@ -1,37 +1,29 @@
-#pragma once
+#ifndef NPC_H
+#define NPC_H
+
 #include <string>
-#include <memory>
 #include <cmath>
 
-enum class NPCType {
-    WORKER_TRADER,
-    KNIGHT,
-    SQUIRREL
-};
-
-class NPCVisitor;
+class Visitor;
 
 class NPC {
 protected:
+    double x, y;
     std::string name;
-    int x, y;
-    bool alive;
-    NPCType type;
 
 public:
-    NPC(const std::string& name, int x, int y, NPCType type);
+    NPC(double x, double y, const std::string& name);
     virtual ~NPC() = default;
 
-    virtual void accept(NPCVisitor& visitor) = 0;
-    virtual std::string getTypeString() const = 0;
+    virtual std::string getType() const = 0;
+    virtual void accept(const Visitor& v) const = 0;
+    virtual bool canKill(const NPC* other) const = 0;
 
-    bool isAlive() const { return alive; } 
-    void kill() { alive = false; }
+    double getX() const;
+    double getY() const;
+    const std::string& getName() const;
 
-    std::string getName() const { return name; }
-    int getX() const { return x; }
-    int getY() const { return y; }
-    NPCType getType() const { return type; }
-
-    double distanceTo(const NPC& other) const;
+    double distanceTo(const NPC* other) const;
 };
+
+#endif

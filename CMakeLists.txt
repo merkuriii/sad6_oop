@@ -1,45 +1,45 @@
-cmake_minimum_required(VERSION 3.14)
-project(lab6)
+# CMakeLists.txt
+cmake_minimum_required(VERSION 3.10)
+project(Lab6)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-if(MSVC)
-    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
-    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
-endif()
+# Include directories
+include_directories(include)
 
-add_executable(funcs
-    src/main.cpp
-    src/BattleLogger.cpp
-    src/BattleVisitor.cpp
-    src/ConsoleObserver.cpp
-    src/Knight.cpp
-    src/DungeonEditor.cpp
-    src/Factory.cpp
-    src/FileObserver.cpp
+# Source files
+set(SOURCES
+    main.cpp
     src/npc.cpp
+    src/SlaveTrader.cpp
     src/Squirrel.cpp
-    src/WorkerTrader.cpp
+    src/Knight.cpp
+    src/Factory.cpp
+    src/PrintVisitor.cpp
+    src/Observer.cpp
+    src/World.cpp
 )
 
-target_include_directories(funcs PRIVATE include)
+# Main executable
+add_executable(main ${SOURCES})
 
-include(FetchContent)
-FetchContent_Declare(
-  googletest
-  GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG        release-1.12.1
-)
-
-if(MSVC)
-    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-endif()
-
-FetchContent_MakeAvailable(googletest)
-
-add_executable(tests test/test6.cpp)
-target_include_directories(tests PRIVATE include)
-target_link_libraries(tests GTest::gtest_main)
-
+# Google Test
 enable_testing()
-add_test(NAME Tests COMMAND tests)
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
+
+# Test executable
+add_executable(tests
+    test/test.cpp
+    src/npc.cpp
+    src/SlaveTrader.cpp
+    src/Squirrel.cpp
+    src/Knight.cpp
+    src/Factory.cpp
+    src/PrintVisitor.cpp
+    src/Observer.cpp
+    src/World.cpp
+)
+target_link_libraries(tests ${GTEST_LIBRARIES} pthread)
+add_test(NAME UnitTests COMMAND tests)

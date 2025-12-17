@@ -1,13 +1,13 @@
-#include "../include/Knight.h"
-#include "../include/BattleVisitor.h"
+#include "Knight.h"
+#include "SlaveTrader.h"
+#include "Visitor.h"
 
-Knight::Knight(const std::string& name, int x, int y) 
-    : NPC(name, x, y, NPCType::KNIGHT) {}
+Knight::Knight(double x, double y, const std::string& name) : NPC(x, y, name) {}
 
-void Knight::accept(NPCVisitor& visitor) {
-    visitor.visit(*this);
-}
+std::string Knight::getType() const { return "Knight"; }
 
-std::string Knight::getTypeString() const {
-    return "Рыцарь";
+void Knight::accept(const Visitor& v) const { v.visit(*this); }
+
+bool Knight::canKill(const NPC* other) const {
+    return dynamic_cast<const SlaveTrader*>(other) != nullptr;
 }

@@ -1,9 +1,14 @@
-#pragma once
+#ifndef SQUIRREL_H
+#define SQUIRREL_H
+
 #include "npc.h"
 
 class Squirrel : public NPC {
 public:
-    Squirrel(const std::string& name, int x, int y);
-    void accept(NPCVisitor& visitor) override;
-    std::string getTypeString() const override;
+    Squirrel(double x, double y, const std::string& name);
+    std::string getType() const override;
+    void accept(const Visitor& v) const override;
+    bool canKill(const NPC* other) const override;
 };
+
+#endif
